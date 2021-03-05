@@ -1,0 +1,46 @@
+<html>
+
+<head>
+    <SCRIPT>
+        var flag = 1,
+            pos = 0,
+            img = null,
+            windowWidth=window.innerWidth,
+            url = 'http://localhost:3000'; // change this to IP address of server
+
+        function Run() {
+            windowWidth=window.innerWidth;
+
+            img = document.getElementById("PacMan");
+            imgF = document.getElementById("Fantasminha");
+            
+            pos += 20;
+            windowWidth = windowWidth - 800- (pos*2);            
+            
+            if(windowWidth <= 0)
+            {
+                img.src = url + '/pac?id=3'; // use flag to choose image
+            }
+            else{
+                img.style.left = pos + "px";
+                imgF.style.right =  pos + "px";
+                if (flag === 1) {
+                    img.src = url + '/pac?id=' + flag; // use flag to choose image
+                    flag = 2;
+                } else {
+                    flag = 1;
+                }
+            }
+            // send position data to Server in url
+            fetch(url + '/set?x=' + pos);
+        }
+    </SCRIPT>
+</head>
+
+<body>
+    <div onclick="Run()">
+        <p>Click on PacMan and the position will be sent to the server".</p>
+        <img id="PacMan" src='http://localhost:3000/pac?id=2'  style="position:absolute">
+        <img id="Fantasminha" src='http://localhost:3000/fant'  style="position:absolute; right: 0px;">
+    </div>
+</body>
